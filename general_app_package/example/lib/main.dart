@@ -1,5 +1,10 @@
+import 'package:example/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:general_app_package/general_app_package.dart';
+import 'package:general_app_package/notifier/combined_notifier.dart';
+import 'package:general_app_package/notifier/locale_notifier.dart';
+import 'package:general_app_package/notifier/theme_notifier.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,62 +15,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => CombinedNotifier(
+        [
+          ThemeNotifier(),
+          LocaleNotifier(),
+        ],
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            PersonalInfo(),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      child: Consumer(builder: (context, CombinedNotifier notifier, child) {
+        return MaterialApp(
+          title: 'General App Package Example',
+          theme: notifier.themeNotifier!.colorTheme.begin,
+          darkTheme: notifier.themeNotifier!.colorTheme.end,
+          locale: notifier.localeNotifier!.locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const MainPage(),
+        );
+      }),
     );
   }
 }
