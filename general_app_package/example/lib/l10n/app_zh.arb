@@ -6,6 +6,6 @@
   "default_value":"預設值",
   "language":"語言",
   "theme":"主題",
-
-  "title_main":"主頁"
+  "title_main":"主頁",
+  "app_name":"示範程式名稱"
 }

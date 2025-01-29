@@ -15,24 +15,32 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(AppLocalizations.of(context)!.title_main),
+        title: Text(appLocalizations?.title_main ?? 'Main'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(Provider.of<CombinedNotifier>(context)
-                .localeNotifier!
-                .locale
-                .toString()),
-            languageKit(context, Provider.of<CombinedNotifier>(context)),
-            // darkThemeKit(context, Provider.of<CombinedNotifier>(context)),
-            // lightThemeKit(context, Provider.of<CombinedNotifier>(context)),
-            themeKit(context, Provider.of<CombinedNotifier>(context),
-                themesDefault, themesDefaultNames),
+            if (appLocalizations != null) ...[
+              Text(Provider.of<CombinedNotifier>(context)
+                  .localeNotifier!
+                  .locale
+                  .toString()),
+              languageKit(context, Provider.of<CombinedNotifier>(context)),
+              darkLightToogleKit(
+                  context, Provider.of<CombinedNotifier>(context)),
+              darkThemeKit(context, Provider.of<CombinedNotifier>(context),
+                  darkThemesDefaultMap),
+              lightThemeKit(context, Provider.of<CombinedNotifier>(context),
+                  lightThemesDefaultMap),
+              themeKit(context, Provider.of<CombinedNotifier>(context),
+                  darkThemesDefaultMap, lightThemesDefaultMap),
+            ],
           ],
         ),
       ),

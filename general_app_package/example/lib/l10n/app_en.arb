@@ -1,11 +1,19 @@
 {
   "@@locale":"en",
   "dark":"Dark",
+  "@dark": {},
   "light":"Light",
+  "@light": {},
   "system":"System",
+  "@system": {},
   "default_value":"Default",
+  "@default_value": {},
   "language":"Language",
+  "@language": {},
   "theme":"Theme",
-
-  "title_main":"main page"
+  "@theme": {},
+  "title_main":"main page",
+  "@title_main": {},
+  "app_name":"Example App Name",
+  "@app_name": {}
 }
